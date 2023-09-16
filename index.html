@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Assignment 1 -->
+    <style>
+      .carousel {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .carousel-slide {
+        display: flex;
+        width: 100%;
+        height: 80%;
+        align-items: center;
+        gap: 17px;
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .carousel-image {
+        width: 100%;
+        height: auto;
+        object-fit: fill;
+      }
+
+      .prev,
+      .next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 30px;
+        cursor: pointer;
+        color: white;
+        border-radius: 50%;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        z-index: 1;
+      }
+
+      .prev {
+        left: 10px;
+      }
+
+      .next {
+        right: 10px;
+      }
+
+      @media screen and (max-width: 768px) {
+        .carousel-slide {
+          height: 300px;
+        }
+
+        .carousel-image {
+          height: 100%;
+        }
+      }
+    </style>
+
+    <!-- Assignment 2 -->
+    <style>
+      .container {
+        width: 80%;
+        padding-bottom: 100px;
+        margin: auto;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      .products {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .product {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+
+      .product img {
+        width: 300px;
+        height: 300px;
+        border-radius: 10px;
+      }
+
+      .product p {
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .product input {
+        width: 50%;
+        margin: auto;
+        padding: 6px;
+      }
+
+      .price-container {
+        display: flex;
+        justify-content: center;
+        padding: 50px;
+      }
+
+      button {
+        display: block;
+        padding: 6px;
+        margin: auto;
+      }
+
+      @media screen and (max-width: 768px) {
+        .products {
+          flex-direction: column;
+          gap: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Assignment 1</h2>
+    <h1>carousel</h1>
+    <!-- carousel container  -->
+    <div class="carousel">
+      <!-- carousel slides -->
+      <div class="carousel-slide">
+        <!-- Add the featured product images -->
+
+        <img
+          src="https://saralhome.com/cdn/shop/files/Bed-covers-Desktop-banner_2.jpg?v=1694693777"
+          alt="img 1"
+          class="carousel-image"
+        />
+        <img
+          src="https://saralhome.com/cdn/shop/files/Curtains-Desktop-banner_2.jpg?v=1694693929"
+          alt="img 2"
+          class="carousel-image"
+        />
+        <img
+          src="https://saralhome.com/cdn/shop/files/home_page_3_Banner.jpg?v=1690378260"
+          alt="img 3"
+          class="carousel-image"
+        />
+      </div>
+      <!-- carousel buttons -->
+      <a class="prev">❮</a>
+      <a class="next">❯</a>
+    </div>
+
+    <script>
+      // carousel container and slide elements
+      const carousel = document.querySelector(".carousel");
+      const slide = document.querySelector(".carousel-slide");
+
+      // carousel images and buttons
+      const images = document.querySelectorAll(".carousel-image");
+      const prevBtn = document.querySelector(".prev");
+      const nextBtn = document.querySelector(".next");
+
+      // index and size variables
+      let index = 0;
+      let size = window.innerWidth; // Use window width for dynamic sizing
+
+      // Slide to the left
+      function slideLeft() {
+        index--;
+
+        if (index < 0) {
+          index = images.length - 1;
+        }
+        // Update the slide position
+        slide.style.transform = `translateX(-${size * index}px)`;
+      }
+
+      // Slide to the right
+      function slideRight() {
+        // Increase the index by one
+        index++;
+        // Check if the index is out of bounds
+        if (index > images.length - 1) {
+          // Reset the index to the first image
+          index = 0;
+        }
+        // Update the slide position
+        slide.style.transform = `translateX(-${size * index}px)`;
+      }
+
+      // Add event listeners for the buttons
+      prevBtn.addEventListener("click", slideLeft);
+      nextBtn.addEventListener("click", slideRight);
+
+      // interval ID
+      let interval;
+
+      // automatic rotation
+      function startRotation() {
+        // Set an interval to call the slideRight function
+        interval = setInterval(slideRight, 3000);
+      }
+
+      // function to stop the automatic rotation
+      function stopRotation() {
+        // Clear interval
+        clearInterval(interval);
+      }
+
+      // Add event listeners for the mouse events on the carousel container
+      carousel.addEventListener("mouseover", stopRotation);
+      carousel.addEventListener("mouseout", startRotation);
+
+      // startRotation function
+      startRotation();
+    </script>
+
+    <h2>Assignment 2</h2>
+
+    <div class="container">
+      <h1>Chocolate Pack</h1>
+      <div class="products">
+        <div class="product">
+          <img
+            src="https://images.pexels.com/photos/8105105/pexels-photo-8105105.jpeg?auto=compress&cs=tinysrgb&w=600"
+            alt="milk Chocolate"
+          />
+          <p>Milk Chocolate</p>
+          <p>$2.00</p>
+          <input
+            type="number"
+            id="milk-chocolate"
+            min="0"
+            max="8"
+            value="0"
+            onchange="updateTotal()"
+          />
+        </div>
+        <div class="product">
+          <img
+            src="https://images.pexels.com/photos/4110101/pexels-photo-4110101.jpeg?auto=compress&cs=tinysrgb&w=600"
+            alt="Dark Chocolate"
+          />
+          <p>Dark Chocolate</p>
+          <p>$1.50</p>
+          <input
+            type="number"
+            id="dark-chocolate"
+            min="0"
+            max="8"
+            value="0"
+            onchange="updateTotal()"
+          />
+        </div>
+        <div class="product">
+          <img
+            src="https://images.pexels.com/photos/2067396/pexels-photo-2067396.jpeg?auto=compress&cs=tinysrgb&w=600"
+            alt="Chocolate Cake"
+          />
+          <p>Chocolate Cake</p>
+          <p>$1.75</p>
+          <input
+            type="number"
+            id="Chocolate-Cake"
+            min="0"
+            max="8"
+            value="0"
+            onchange="updateTotal()"
+          />
+        </div>
+      </div>
+
+      <div class="price-container">
+        <div class="total" id="total-display">
+          Total Items: 0 Total Price: $0.00
+        </div>
+
+        <button id="order-button" onclick="submitOrder()" disabled="true">
+          Order Now
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // Define the prices of each product
+      const prices = {
+        "dark-chocolate": 2.0,
+        "milk-chocolate": 1.5,
+        "Chocolate-Cake": 1.75,
+      };
+
+      function updateTotal() {
+        let inputs = document.querySelectorAll("input[type=number]");
+
+        let totalItems = 0;
+        let totalPrice = 0;
+
+        for (let input of inputs) {
+          let id = input.id;
+          let value = parseInt(input.value);
+
+          totalItems += value;
+
+          totalPrice += value * prices[id];
+        }
+
+        let totalDisplay = document.getElementById("total-display");
+        totalDisplay.innerHTML = `Total Items: ${totalItems}
+         Total Price: $${totalPrice.toFixed(2)}`;
+
+        let orderButton = document.getElementById("order-button");
+        if (totalItems > 0 && totalItems <= 8) {
+          orderButton.disabled = false;
+        } else {
+          orderButton.disabled = true;
+        }
+      }
+
+      function submitOrder() {
+        let inputs = document.querySelectorAll("input[type=number]");
+
+        let order = [];
+
+        for (let input of inputs) {
+          let id = input.id;
+          let value = parseInt(input.value);
+
+          if (value > 0) {
+            order.push({ id: id, value: value });
+          }
+        }
+
+        // array to a JSON string
+        let orderJSON = JSON.stringify(order);
+
+        alert(`Your order has been submitted: ${orderJSON}`);
+      }
+    </script>
+  </body>
+</html>
